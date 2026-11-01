@@ -306,7 +306,6 @@ export default function Styleguide() {
               <Pill tone="off">Off tour</Pill>
               <Pill tone="soon">Coming soon · Side B</Pill>
               <Pill>by agent</Pill>
-              <Pill>Example labels · Fictional</Pill>
             </div>
           </div>
           <div>
