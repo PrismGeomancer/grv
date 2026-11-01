@@ -8,7 +8,7 @@ export const SOCIAL = {
     label: "X",
     /** Stylised handle; the only place "$GROOVE" may appear (§1.2). */
     handle: "$GROOVE",
-    href: "https://x.com",
+    href: "https://x.com/Groove__music",
     a11y: "Groove on X (opens in a new tab)",
   },
 } as const;
