@@ -1,0 +1,379 @@
+@import "tailwindcss";
+@import "./tokens.css";
+@import "./grain.css";
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-paper: var(--paper);
+  --color-paper-dim: var(--paper-dim);
+  --color-onair: var(--onair);
+  --color-sodium: var(--sodium);
+  --color-sheet-dim: var(--sheet-dim);
+  --color-stamp: var(--stamp);
+
+  --font-display: var(--font-archivo), "Arial Black", sans-serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+
+  --text-hero: var(--step-hero);
+  --text-hero--line-height: 0.88;
+  --text-hero--letter-spacing: -0.035em;
+  --text-h2: var(--step-h2);
+  --text-h2--line-height: 0.92;
+  --text-h2--letter-spacing: -0.025em;
+  --text-h3: var(--step-h3);
+  --text-h3--line-height: 1.05;
+  --text-lead: var(--step-lead);
+  --text-lead--line-height: 1.55;
+  --text-body: var(--step-body);
+  --text-body--line-height: 1.55;
+  --text-mono: var(--step-mono);
+  --text-mono--line-height: 1.4;
+  --text-mono-sm: var(--step-mono-sm);
+  --text-mono-sm--line-height: 1.4;
+
+  --ease-out: var(--ease-out);
+}
+
+/* Archivo's width axis: expanded black for headlines, condensed for labels. */
+@utility font-expanded {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-stretch: 125%;
+}
+@utility font-condensed {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: 75%;
+}
+@utility mono-label {
+  font-family: var(--font-mono);
+  font-size: var(--step-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+@utility container-groove {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Faint concentric vinyl grooves for section backgrounds. */
+@utility bg-grooves {
+  background-image: repeating-radial-gradient(
+    circle at var(--groove-x, 50%) var(--groove-y, 50%),
+    transparent 0 5px,
+    rgb(255 255 255 / 0.022) 5px 6px
+  );
+  mask-image: radial-gradient(
+    circle at var(--groove-x, 50%) var(--groove-y, 50%),
+    #000 0 30%,
+    transparent 70%
+  );
+}
+
+@layer base {
+  html {
+    background: var(--ink);
+    color: var(--paper);
+    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    background: var(--ink);
+    font-family: var(--font-sans);
+    font-size: var(--step-body);
+    line-height: 1.55;
+    overflow-x: clip;
+    min-height: 100dvh;
+  }
+  ::selection {
+    background: var(--onair);
+    color: var(--ink);
+  }
+  :focus-visible {
+    outline: 2px solid var(--paper);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  .on-paper :focus-visible {
+    outline-color: var(--ink);
+  }
+  img,
+  svg,
+  canvas {
+    display: block;
+  }
+}
+
+/* Skip link: hidden until focused. */
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  padding: 0.75rem 1rem;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: var(--step-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 6px;
+  transform: translateY(-200%);
+}
+.skip-link:focus-visible {
+  transform: none;
+  outline-color: var(--onair);
+}
+
+/* Blinking caret for typeLine. */
+.caret {
+  display: inline-block;
+  width: 0.6ch;
+  height: 1.1em;
+  margin-left: 0.1ch;
+  vertical-align: -0.15em;
+  background: currentColor;
+  animation: caret-blink 1s steps(1) infinite;
+}
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* SplitText line masks. */
+.reveal-line-mask {
+  padding-bottom: 0.06em;
+  margin-bottom: -0.06em;
+}
+
+/* Live dot (on tour). */
+.live-dot {
+  position: relative;
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: var(--onair);
+  flex: none;
+}
+.live-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--onair);
+  animation: live-pulse 1.8s var(--ease-out) infinite;
+}
+@keyframes live-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+/* Slow sodium pulse for "coming soon". */
+.sodium-pulse {
+  animation: sodium-pulse 3.2s ease-in-out infinite;
+}
+@keyframes sodium-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(255 181 71 / 0);
+    border-color: rgb(255 181 71 / 0.35);
+  }
+  50% {
+    box-shadow: 0 0 18px 0 rgb(255 181 71 / 0.18);
+    border-color: rgb(255 181 71 / 0.8);
+  }
+}
+
+/* CSS spin used by small icons (button arrow slot, cursor). */
+.css-spin {
+  animation: css-spin 1.6s linear infinite;
+}
+@keyframes css-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/*
+ * Reduced motion. JS sets html[data-motion] before first paint; the media query is
+ * the no-JS fallback and stays out of the way when an explicit "full" override is set.
+ */
+html[data-motion="reduce"] *,
+html[data-motion="reduce"] *::before,
+html[data-motion="reduce"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-motion="full"]) *,
+  html:not([data-motion="full"]) *::before,
+  html:not([data-motion="full"]) *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/*
+ * Sleeve wear: a faint ring where a record pressed through the cardboard, and soft
+ * scuffs on the edges. Pure gradients, no images.
+ */
+.sleeve-wear::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle at var(--wear-x, 50%) var(--wear-y, 45%),
+      transparent 0 37%,
+      rgb(255 255 255 / 0.035) 38%,
+      rgb(255 255 255 / 0.06) 39.5%,
+      transparent 41.5%
+    ),
+    linear-gradient(
+      90deg,
+      rgb(255 255 255 / 0.05),
+      transparent 3%,
+      transparent 97%,
+      rgb(255 255 255 / 0.04)
+    ),
+    linear-gradient(
+      180deg,
+      rgb(255 255 255 / 0.045),
+      transparent 4%,
+      transparent 95%,
+      rgb(0 0 0 / 0.25)
+    );
+  mix-blend-mode: screen;
+}
+
+/*
+ * Intro curtain. Only visible when the boot script set html[data-intro="play"], so no-JS
+ * and returning visitors never see it. Failsafes: if the intro chunk never runs, the
+ * curtain lifts and the hero visual appears after 9s anyway.
+ */
+.intro-shell {
+  display: none;
+}
+html[data-intro="play"] .intro-shell {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: var(--ink);
+  animation: intro-failsafe-hide 0.3s 9s forwards;
+}
+html[data-intro="play"] [data-hero-eye],
+html[data-intro="play"] [data-hero-arm] {
+  visibility: hidden;
+  animation: intro-failsafe-show 0s 9s forwards;
+}
+@keyframes intro-failsafe-hide {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+@keyframes intro-failsafe-show {
+  to {
+    visibility: visible;
+  }
+}
+
+/* Roster: which way each record slides out of its sleeve (toward open space). */
+.roster-grid > * {
+  --slide: 50%;
+}
+.roster-grid > :last-child {
+  --slide: -50%;
+}
+@media (min-width: 768px) {
+  .roster-grid > :nth-child(2n) {
+    --slide: -50%;
+  }
+}
+@media (min-width: 1024px) {
+  .roster-grid > :nth-child(2n) {
+    --slide: 50%;
+  }
+  .roster-grid > :nth-child(4n) {
+    --slide: -50%;
+  }
+}
+
+/* Marquee under reduced motion: a plain, keyboard-scrollable row (one copy, no ticker). */
+html[data-motion="reduce"] [data-marquee] {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+}
+
+/*
+ * How it works: a grid by default (mobile, tablet, reduced motion, no JS); with motion on
+ * desktop the panels sit in one row and the section pins and scrolls sideways.
+ */
+.loop-track {
+  display: grid;
+  gap: 1.25rem;
+}
+@media (min-width: 768px) {
+  .loop-track {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  html[data-motion="full"] .loop-pin {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  html[data-motion="full"] .loop-track {
+    display: flex;
+    width: max-content;
+    gap: 1.5rem;
+    padding-right: var(--gutter);
+  }
+  html[data-motion="full"] .loop-pin {
+    padding-block: 4.5rem 2.5rem;
+  }
+  html[data-motion="full"] .loop-panel {
+    width: min(38vw, 34rem);
+  }
+  /* Panels must fit the pinned viewport: the illustration takes what's left. */
+  html[data-motion="full"] .loop-art {
+    height: clamp(7.5rem, 100dvh - 30rem, 18rem);
+  }
+  html[data-motion="full"] .loop-viewport {
+    margin-top: clamp(1.25rem, 100dvh - 44rem, 4rem);
+  }
+  html[data-motion="full"] .loop-art svg {
+    height: 100%;
+    width: auto;
+  }
+  html[data-motion="full"] .loop-progress {
+    display: block;
+  }
+}
