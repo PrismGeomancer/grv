@@ -93,7 +93,7 @@ export const copy = {
     stamp: "GRV-003 · SIDE A",
     title: "Every label starts with one signing.", // FINAL
     sub: "Some of the labels already running on Groove.", // FINAL
-    disclaimer: "EXAMPLE LABELS · FICTIONAL", // FINAL
+    disclaimer: "OUR LABELS", // FINAL
     founded: "Founded",
     roster: "Roster",
     royalties: "Royalties paid",
